@@ -20,6 +20,11 @@ import android.widget.ProgressBar;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * Implementação de AsyncTasks de acordo com as best practices para programação Android, para que
+ * requisições conexão a serviços web sejam feitas em thread.
+ */
+
 public class TesteCidadeView extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
@@ -77,6 +82,9 @@ public class TesteCidadeView extends AppCompatActivity {
         });
     }
 
+    /**
+     * Implementação de AsyncTask para solicitação de requests do método GET para o serviço de Busca de Todas as Cidades.
+     */
     private class HttpRequestTask extends AsyncTask<Void, Void, TesteCidadeModel[]> {
 
         @Override
@@ -86,6 +94,9 @@ public class TesteCidadeView extends AppCompatActivity {
             super.onPreExecute();
         }
 
+        /**
+         * @return de objetos instanciados através do Template do Spring.
+         */
         @Override
         protected TesteCidadeModel[] doInBackground(Void... params) {
             try {
@@ -140,13 +151,24 @@ public class TesteCidadeView extends AppCompatActivity {
         mRecyclerView.setVisibility(View.VISIBLE);
     }
 
-    public class PontosHttpRequestTask extends AsyncTask<TesteCidadeModel , Void, String> {
+
+    /**
+     * Implementação de AsyncTask para solicitação de requests do método Post para o serviço de Busca de Pontos.
+     */
+    private class PontosHttpRequestTask extends AsyncTask<TesteCidadeModel , Void, String> {
+
+        /**
+         * Override opcional do método onPreExecute com implementação de um dialog para informação do carregamento de dados, para melhor usabilidade do usuário.
+         */
         @Override
         protected void onPreExecute() {
             dialogShow("Aguarde", "Carregando dados do Servidor...");
             super.onPreExecute();
         }
 
+        /**
+         * @return de um objeto String instanciado através do Template do Spring, passado como parâmetro para classe PostExecute
+         */
         @Override
         protected String doInBackground(TesteCidadeModel... mHolderCidade) {
             try {
@@ -162,7 +184,9 @@ public class TesteCidadeView extends AppCompatActivity {
 
             return null;
         }
-
+        /**
+         * Override do opcional método onPostExecute para um melhor feedback do usuário.
+         */
         @Override
         protected void onPostExecute(String cidadePontos) {
             dialogCancel();
@@ -177,10 +201,19 @@ public class TesteCidadeView extends AppCompatActivity {
 
     }
 
+    /**
+     * método para solicitação de execução de uma Thread de conexão no context da Activity.
+     */
     public void startAsync(TesteCidadeModel cidade){
        new PontosHttpRequestTask().execute(cidade);
     }
 
+    /**
+     * Implementação do método para criação do AlertDialog principal da Activity.
+     * @param titulo
+     * @param message
+     * Style customizado definido no res/values/styles.xml
+     */
     public void dialogShow(String titulo, String message){
         mDialogBuilder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
         mDialogBuilder.setTitle(titulo);
@@ -194,6 +227,9 @@ public class TesteCidadeView extends AppCompatActivity {
         mDialog.cancel();
     }
 
+    /**
+     * Implementação de função para controle do Keyboard com o fim de escondê-lo.
+     */
     public void showHideKeyboard(){
         if(imm.isActive()){
             imm.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS, 0);

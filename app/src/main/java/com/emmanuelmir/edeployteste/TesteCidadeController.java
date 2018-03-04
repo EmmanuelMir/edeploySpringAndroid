@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Emmanuel Junior on 02/03/2018.
+ * Implementação da RecyclerView, ViewHolder e override dos métodos necessários
  */
 
 public class TesteCidadeController extends RecyclerView.Adapter<TesteCidadeController.TesteCidadeControllerViewHolder> {
@@ -44,6 +45,11 @@ public class TesteCidadeController extends RecyclerView.Adapter<TesteCidadeContr
         return new TesteCidadeControllerViewHolder(itemView);
     }
 
+    /**
+     *
+     * @param holder refere-se ao viewHolder com a view reciclada. Foi necessário a implementação individual por bind de Views do ClickListener.
+     * @param position
+     */
     @Override
     public void onBindViewHolder(TesteCidadeControllerViewHolder holder, final int position) {
         final int positionData = position; //Tem que ser definido aqui para que seja guardado como o endereço da holder.
@@ -72,7 +78,9 @@ public class TesteCidadeController extends RecyclerView.Adapter<TesteCidadeContr
         notifyDataSetChanged();
     }
 
-
+    /**
+    Implementação Custom de Filtro para o search das EditTexts
+     */
     protected TesteCidadeModel[] performFiltering(CharSequence charEstado, CharSequence charCidade) {
 
         String stringCidade = charCidade.toString().toLowerCase();
