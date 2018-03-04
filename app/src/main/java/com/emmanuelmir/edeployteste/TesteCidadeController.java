@@ -1,18 +1,13 @@
 package com.emmanuelmir.edeployteste;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Emmanuel Junior on 02/03/2018.
