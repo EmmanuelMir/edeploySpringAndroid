@@ -44,11 +44,11 @@ public class TesteCidadeView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teste_cidade_view);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
 
-        mRecyclerView = (RecyclerView)findViewById(R.id.my_recycler);
+        mRecyclerView = findViewById(R.id.my_recycler);
 
         layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
 
@@ -60,11 +60,11 @@ public class TesteCidadeView extends AppCompatActivity {
 
         mRecyclerView.setAdapter(mCidadeController);
 
-        mPbar = (ProgressBar)findViewById(R.id.pb_loading_indicator);
+        mPbar = findViewById(R.id.pb_loading_indicator);
 
-        mSearchEdit = (EditText) findViewById(R.id.my_edit_search);
+        mSearchEdit = findViewById(R.id.my_edit_search);
 
-        mSearchEditEstado = (EditText)findViewById(R.id.my_edit_search_estado);
+        mSearchEditEstado = findViewById(R.id.my_edit_search_estado);
 
         mCharParams = mSearchEdit.getText();
 
@@ -72,11 +72,11 @@ public class TesteCidadeView extends AppCompatActivity {
 
         imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new HttpRequestTask().execute();
+                startBuscaCidadesAsync();
                 showHideKeyboard();
             }
         });
@@ -123,6 +123,10 @@ public class TesteCidadeView extends AppCompatActivity {
 
         }
 
+    }
+
+    public void startBuscaCidadesAsync(){
+        new HttpRequestTask().execute();
     }
 
     @Override
@@ -190,7 +194,7 @@ public class TesteCidadeView extends AppCompatActivity {
         @Override
         protected void onPostExecute(String cidadePontos) {
             dialogCancel();
-            if (cidadePontos != "") {
+            if (cidadePontos.equals("")) {
                 dialogShow("Pontos Cidade", cidadePontos);
 
             }else{
@@ -210,8 +214,8 @@ public class TesteCidadeView extends AppCompatActivity {
 
     /**
      * Implementação do método para criação do AlertDialog principal da Activity.
-     * @param titulo
-     * @param message
+     * @param titulo título do Alert Dialog
+     * @param message mensagem do Alert Dialog
      * Style customizado definido no res/values/styles.xml
      */
     public void dialogShow(String titulo, String message){
